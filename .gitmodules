@@ -1,0 +1,3 @@
+[submodule "server/drftypegen"]
+	path = server/drftypegen
+	url = ../../codesigntheory/drftypegen.git

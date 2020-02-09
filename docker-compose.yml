@@ -1,0 +1,19 @@
+version: '3'
+services:
+  db:
+    image: postgres:latest
+    container_name: DRFTypeGenProj_db
+    volumes:
+      - DRFTypeGenProj-db:/var/lib/postgresql/data
+  server:
+    container_name: DRFTypeGenProj_server
+    image: registry.gitlab.com/codesigntheory/drftypegenproj:${GIT_BRANCH:-latest}
+    command: python manage.py runserver 0.0.0.0:8000
+    volumes:
+      - ./server:/app/server
+    ports:
+      - "0.0.0.0:8000:8000"
+    depends_on:
+      - db
+volumes:
+  DRFTypeGenProj-db:

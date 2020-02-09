@@ -1,0 +1,24 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[global]
+no-cache-dir = true
+
+[dev-packages]
+black = "==19.3b0"
+jupyter-console = "*"
+
+[packages]
+psycopg2-binary = "*"
+coverage = "*"
+Django = "*"
+django-rest-framework = "*"
+djangorestframework = "*"
+wagtail = "*"
+
+[requires]
+
+[pipenv]
+allow_prereleases = true

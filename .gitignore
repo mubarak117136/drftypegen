@@ -1,0 +1,8 @@
+**/__pycache__
+page_data.pickle
+**/*~
+server/static
+server/static/*
+server/media
+server/media/*
+.vscode/*

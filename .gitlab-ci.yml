@@ -1,0 +1,35 @@
+stages:
+  - build
+  - test
+  - deploy
+
+before_script:
+  - sudo chown -R gitlab-runner:gitlab-runner .
+
+after_script:
+  - sudo chown -R gitlab-runner:gitlab-runner .
+
+build:
+  stage: build
+  script:
+    - docker build --pull -t registry.gitlab.com/codesigntheory/drftypegenproj:latest ./server
+    - docker push registry.gitlab.com/codesigntheory/drftypegenproj:latest
+  tags:
+    - docker
+    - build
+
+.test:
+  stage: test
+  script:
+    - export COMPOSE_INTERACTIVE_NO_CLI=1
+    - export GIT_BRANCH=$CI_COMMIT_REF_NAME
+    - docker-compose up -d server
+    - docker-compose exec -T server pipenv run ./manage.py migrate
+    - docker-compose exec -T server pipenv run coverage run manage.py test --noinput
+    - docker-compose exec -T server pipenv run coverage report -m --skip-covered
+    - docker-compose stop
+    - export GIT_BRANCH=""
+    - export COMPOSE_INTERACTIVE_NO_CLI=0
+  tags:
+    - docker
+    - build
